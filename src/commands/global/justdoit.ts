@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { nicknameCheck } from "../../util/nicknameCheck";
 import { stripIndents } from "common-tags";
 import { colour } from "../../config/config.json";
@@ -7,11 +7,11 @@ import { colour } from "../../config/config.json";
 module.exports = {
   data: new SlashCommandBuilder().setName("justdoit").setDescription("JUST DO IT!"),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const avatar = nicknameCheck(interaction).avatar;
     const nickname = nicknameCheck(interaction).nickname;
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(colour)
       .setAuthor({ name: nickname, iconURL: avatar })
       .setThumbnail("https://thumbs.gfycat.com/FlawlessCompleteDwarfrabbit-size_restricted.gif")

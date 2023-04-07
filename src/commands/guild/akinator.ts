@@ -1,25 +1,31 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
+import {
+  SlashCommandBuilder,
+  ChatInputCommandInteraction,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  EmbedBuilder,
+} from "discord.js";
 import { nicknameCheck } from "../../util/nicknameCheck";
 
 module.exports = {
   data: new SlashCommandBuilder().setName("akinator").setDescription("Akinator... But with ACAね for once!"),
-  async execute(interaction: CommandInteraction) {
-    const row = new MessageActionRow().addComponents(
-      new MessageButton().setCustomId("yes").setLabel("Yes").setStyle("SUCCESS"),
-      new MessageButton().setCustomId("no").setLabel("No").setStyle("DANGER"),
+  async execute(interaction: ChatInputCommandInteraction) {
+    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+      new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success),
+      new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger),
     );
     const percent = Math.floor(Math.random() * (99 - 75 + 1) + 75);
 
     const avatar = nicknameCheck(interaction).avatar;
     const nickname = nicknameCheck(interaction).nickname;
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setAuthor({ name: nickname, iconURL: avatar })
       .setDescription(`I'm ${percent}% sure your character is...\n\nACAね (Singer)`)
       .setThumbnail("https://raw.githubusercontent.com/anomalilies/Nira-chan/master/Images/ACAne.png");
 
-    const altResponse = new MessageEmbed().setAuthor({ name: nickname, iconURL: avatar });
+    const altResponse = new EmbedBuilder().setAuthor({ name: nickname, iconURL: avatar });
 
     await interaction.reply({
       embeds: [embed.setColor("#03a9f4").setFooter({ text: "Is this correct?" })],

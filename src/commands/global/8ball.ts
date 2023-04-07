@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { nicknameCheck } from "../../util/nicknameCheck";
 import responses from "../../data/8ball.json";
 import { colour } from "../../config/config.json";
@@ -8,11 +8,10 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("8ball")
     .setDescription("Ask Nira for advice to all of your life's woes.")
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .addStringOption((option: any) =>
+    .addStringOption((option) =>
       option.setName("query").setDescription("What do you want to ask Nira?").setRequired(true),
     ),
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     let query: string = interaction.options.getString("query")!;
 
     const avatar = nicknameCheck(interaction).avatar;
@@ -22,11 +21,11 @@ module.exports = {
       query = query.concat("?");
     }
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(colour)
       .setAuthor({ name: `${nickname} asked...`, iconURL: avatar })
       .setDescription(
-        `> **${query}**\n\nNira-chan's magic 8-ball responds: **${
+        `> **${query}**\n\n${interaction.client.user!.username}'s magic 8-ball responds: **${
           responses[Math.floor(Math.random() * responses.length)]
         }**`,
       );

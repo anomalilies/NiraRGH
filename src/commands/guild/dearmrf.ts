@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { oneLine } from "common-tags";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { nicknameCheck } from "../../util/nicknameCheck";
 import { colour, emojis } from "../../config/config.json";
 
@@ -13,12 +13,12 @@ module.exports = {
       option.setName("message").setDescription("Your message to Mr. F.").setRequired(true),
     ),
 
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const message: string = interaction.options.getString("message")!;
     const avatar = nicknameCheck(interaction).avatar;
     const nickname = nicknameCheck(interaction).nickname;
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(colour)
       .setAuthor({ name: nickname, iconURL: avatar })
       .addFields(

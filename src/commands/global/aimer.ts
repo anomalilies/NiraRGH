@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { nicknameCheck } from "../../util/nicknameCheck";
 import { colour } from "../../config/config.json";
 import { oneLine } from "common-tags";
@@ -11,13 +11,13 @@ module.exports = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .addStringOption((option: any) => option.setName("input").setDescription("Who you want to obsess over.")),
 
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const input: string = interaction.options.getString("input")!;
 
     if (!input || input.length <= 133) {
       const avatar = nicknameCheck(interaction).avatar;
       const nickname = nicknameCheck(interaction).nickname;
-      const embed = new MessageEmbed().setColor(colour).setAuthor({ name: nickname, iconURL: avatar });
+      const embed = new EmbedBuilder().setColor(colour).setAuthor({ name: nickname, iconURL: avatar });
 
       if (!input || input.toLowerCase() === "aimer") {
         embed.setDescription(oneLine`Pretend that you're surprised. Yes, I love Aimer. Yes, my love for Aimer is borderline obsessive.

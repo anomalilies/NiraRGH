@@ -27,3 +27,8 @@ model Auth {
   guildId        String  @unique
   authentication Boolean @default(false)
 }
+
+
+model Blacklist {
+  userId         String  @unique
+}

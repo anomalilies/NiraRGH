@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { nicknameCheck } from "../../util/nicknameCheck";
 import { colour } from "../../config/config.json";
 import axios from "axios";
@@ -25,7 +25,7 @@ module.exports = {
         .setDescription("The three-letter currency code of the currency you would like to convert to.")
         .setRequired(true),
     ),
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const value = interaction.options.getNumber("value");
     const fromCurrency = interaction.options.getString("fromcurrency")!.toUpperCase();
     const toCurrency = interaction.options.getString("tocurrency")!.toUpperCase();
@@ -44,7 +44,7 @@ module.exports = {
 
           const newValue = res.data.result.toFixed(2);
 
-          const embed = new MessageEmbed()
+          const embed = new EmbedBuilder()
             .setColor(colour)
             .setAuthor({ name: `💰 ${value} ${fromCurrency} equals:` })
             .setTitle(`${newValue} ${toCurrency}`)

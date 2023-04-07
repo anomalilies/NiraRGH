@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { nicknameCheck } from "../../util/nicknameCheck";
 import { colour } from "../../config/config.json";
 
@@ -19,7 +19,7 @@ module.exports = {
         .addChoice("°C", "C")
         .addChoice("°F", "F"),
     ),
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const value = interaction.options.getNumber("value")!;
     const unit = interaction.options.getString("unit");
 
@@ -39,7 +39,7 @@ module.exports = {
     const avatar = nicknameCheck(interaction).avatar;
     const nickname = nicknameCheck(interaction).nickname;
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(colour)
       .setAuthor({ name: `🌡️ ${value}°${unit} equals:` })
       .setTitle(response)

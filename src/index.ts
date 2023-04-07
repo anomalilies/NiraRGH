@@ -2,9 +2,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 require("dotenv").config();
 import fs from "node:fs";
-import { Client, Collection, Intents, Interaction } from "discord.js";
+import { Client, Collection, GatewayIntentBits, Interaction } from "discord.js";
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+const client = new Client({
+  intents: [GatewayIntentBits.Guilds],
+});
 
 const commands = new Collection();
 const guildCommandPath = __dirname + "/commands/guild/";

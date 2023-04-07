@@ -1,19 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, MessageEmbed, MessageActionRow, MessageButton } from "discord.js";
+import {
+  SlashCommandBuilder,
+  ChatInputCommandInteraction,
+  EmbedBuilder,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+} from "discord.js";
 import { nicknameCheck } from "../../util/nicknameCheck";
 import { colour, guildId, invite } from "../../config/config.json";
 
 module.exports = {
   data: new SlashCommandBuilder().setName("invite").setDescription("Create an invitation."),
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const botName = interaction.client.user!.username as string;
     const botID = interaction.client.user!.id as string;
 
-    const botInvite = new MessageActionRow().addComponents(
-      new MessageButton()
+    const botInvite = new ActionRowBuilder<ButtonBuilder>().addComponents(
+      new ButtonBuilder()
         .setLabel(`Invite ${botName}`)
-        .setStyle("LINK")
+        .setStyle(ButtonStyle.Link)
         .setURL(
           `https://discord.com/api/oauth2/authorize?client_id=${botID}&permissions=805661760&scope=bot%20applications.commands`,
         ),
@@ -24,7 +30,7 @@ module.exports = {
       const nickname = nicknameCheck(interaction).nickname;
       const guildName = interaction.guild?.name as string;
 
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setColor(colour)
         .setAuthor({ name: nickname, iconURL: avatar })
         .setTitle("Invite")
@@ -33,9 +39,9 @@ module.exports = {
         or share **${guildName}'s invite link**?`,
         );
 
-      const row = new MessageActionRow().addComponents(
-        new MessageButton().setCustomId("bot").setLabel(botName).setStyle("PRIMARY"),
-        new MessageButton().setCustomId("guild").setLabel(guildName).setStyle("PRIMARY"),
+      const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+        new ButtonBuilder().setCustomId("bot").setLabel(botName).setStyle(ButtonStyle.Primary),
+        new ButtonBuilder().setCustomId("guild").setLabel(guildName).setStyle(ButtonStyle.Primary),
       );
       await interaction.reply({
         embeds: [embed],

@@ -1,14 +1,14 @@
-import { CommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction } from "discord.js";
 
-export const nicknameCheck = (interaction: CommandInteraction) => {
+export const nicknameCheck = (interaction: ChatInputCommandInteraction) => {
   let a: string;
   let n: string;
   if (interaction.inGuild()) {
     const userId = interaction.guild!.members.cache.find((user) => user.id === interaction.user.id)!;
-    a = userId.displayAvatarURL({ dynamic: true });
+    a = userId.displayAvatarURL();
     n = userId.displayName;
   } else {
-    a = interaction.user.avatarURL({ dynamic: true })!;
+    a = interaction.user.avatarURL()!;
     n = interaction.user.username;
   }
   return { avatar: a, nickname: n };

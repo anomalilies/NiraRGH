@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { TextChannel, DMChannel, CommandInteraction } from "discord.js";
+import { TextChannel, DMChannel, ChatInputCommandInteraction } from "discord.js";
 import { ownerId, emojis } from "../../config/config.json";
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
     .setDescription("Let Nira speak her mind.")
     .setDefaultPermission(false)
     .addStringOption((option: any) => option.setName("message").setDescription("[REDACTED]").setRequired(true)),
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     if (!interaction.inGuild() || interaction.user.id === ownerId) {
       const message = interaction.options.getString("message");
 

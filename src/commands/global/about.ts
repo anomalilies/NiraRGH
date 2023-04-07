@@ -1,16 +1,16 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { nicknameCheck } from "../../util/nicknameCheck";
 import { colour, ownerId, invite } from "../../config/config.json";
 
 module.exports = {
   data: new SlashCommandBuilder().setName("about").setDescription("Learn more about Nira-chan."),
 
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const avatar = nicknameCheck(interaction).avatar;
     const nickname = nicknameCheck(interaction).nickname;
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(colour)
       .setAuthor({ name: nickname, iconURL: avatar })
       .setTitle(`About ${interaction.client.user!.username}`)
@@ -40,7 +40,7 @@ module.exports = {
         },
         {
           name: "Special Thanks",
-          value: `Honestly, I can't thank everyone that's helped work on this project with me enough.\nBut, to **Hachan**, **Glup**, **Aravk**, and **Dave**, I wouldn't have gotten to this stage without your support— **I love you all so much**!\n
+          value: `Honestly, I can't thank everyone that's helped work on this project with me enough.\nBut, to **Hachan**, **Glup**, **Aravk**, **Dave**, and **Weepy**, I wouldn't have gotten to this stage without your support— **I love you all so much**!\n
             Bonus shoutouts to **Elo**, **Kasu**, **Jonno**, and everyone else from ZUTOMAYO ZONE!\n
             And to my wonderful partner, thank you so much for always supporting the passion for my hobbies and dreams — Not only in regarding them, but for all you do for me.\n**Today, and always**, you mean the world and beyond to me.\n
             **Thank you for everything, everyone. <:niralove:811608668466446356>**\nYou're all amazing!`,

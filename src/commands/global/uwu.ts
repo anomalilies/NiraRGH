@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction } from "discord.js";
 import { uwuify } from "../../util/uwuTranslator/uwuify";
 import { emojis } from "../../config/config.json";
 
@@ -11,7 +11,7 @@ module.exports = {
     .addStringOption((option: any) =>
       option.setName("message").setDescription("What would you like to translate?").setRequired(true),
     ),
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const text: string = interaction.options.getString("message")!;
 
     interaction.reply(emojis.loading);

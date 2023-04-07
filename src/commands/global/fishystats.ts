@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { PrismaClient } from "@prisma/client";
 import { colour } from "../../config/config.json";
 
@@ -11,7 +11,7 @@ module.exports = {
     .setDescription("Group your previous catches by type.")
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .addStringOption((option: any) => option.setName("name").setDescription("Who you want to check the stats of.")),
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const name: string = interaction.options.getString("name")!;
     let userID: string;
 
@@ -62,7 +62,7 @@ module.exports = {
         const fishyStats = statValues.join("\n");
         const rarityStats = rarityValues.join("\n");
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setColor(colour)
           .setTitle("Fishy Stats 🎣")
           .setDescription(`${fishyStats}\nAverage fish: **${averageFish.toFixed(2)}**`)
@@ -74,7 +74,7 @@ module.exports = {
           ])
           .setFooter({
             text: user.user.tag,
-            iconURL: user.displayAvatarURL({ dynamic: true }),
+            iconURL: user.displayAvatarURL(),
           })
           .setTimestamp();
 

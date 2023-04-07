@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { PrismaClient } from "@prisma/client";
 import { colour } from "../../config/config.json";
 import moment from "moment";
@@ -22,7 +22,7 @@ module.exports = {
     this._data = value;
   },
 
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     if (!interaction.inCachedGuild()) return;
 
     await interaction.deferReply({ fetchReply: true });
@@ -96,7 +96,7 @@ module.exports = {
           },
         })) as any;
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setColor(colour)
           .setTitle(reply)
           .addFields([
@@ -107,7 +107,7 @@ module.exports = {
           ])
           .setFooter({
             text: `${user.user.tag} has ${newTotal.totalFish} fishy`,
-            iconURL: user.displayAvatarURL({ dynamic: true }),
+            iconURL: user.displayAvatarURL(),
           })
           .setTimestamp();
 
@@ -150,7 +150,7 @@ module.exports = {
           });
         }
       } else {
-        const timerEmbed = new MessageEmbed()
+        const timerEmbed = new EmbedBuilder()
           .setColor(colour)
           .setTitle("Hold Up!")
           .setDescription(

@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { PrismaClient } from "@prisma/client";
 import { nicknameCheck } from "../../util/nicknameCheck";
 import { colour } from "../../config/config.json";
@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 
 module.exports = {
   data: new SlashCommandBuilder().setName("fishytimer").setDescription("Check when you can next fish."),
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const user = await interaction.guild!.members.cache.find((user) => user.id === interaction.user.id)!;
 
     if (user !== undefined) {
@@ -22,7 +22,7 @@ module.exports = {
       const avatar = nicknameCheck(interaction).avatar;
       const nickname = nicknameCheck(interaction).nickname;
 
-      const defaultEmbed = new MessageEmbed()
+      const defaultEmbed = new EmbedBuilder()
         .setColor(colour)
         .setAuthor({ name: nickname, iconURL: avatar })
         .setTimestamp();

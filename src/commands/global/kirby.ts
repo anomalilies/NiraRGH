@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { nicknameCheck } from "../../util/nicknameCheck";
 import { emojis, colour } from "../../config/config.json";
 import abilities from "../../data/copyabilities.json";
@@ -9,7 +9,7 @@ module.exports = {
     .setName("kirby")
     .setDescription("What copy ability will Kirby get when he inhales you?"),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const total = abilities.reduce((acc, cur) => acc + cur.weight, 0);
     const threshold = Math.random() * total;
 
@@ -27,7 +27,7 @@ module.exports = {
 
     const reply = group!.format.replace("{ability}", ability).replace("{name}", nickname);
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(colour)
       .setAuthor({ name: nickname, iconURL: avatar })
       .setDescription(`${emojis.kirbsucc} ${reply}`);

@@ -1,9 +1,9 @@
-import { CommandInteraction, MessageEmbed, TextChannel, DMChannel } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder, TextChannel, DMChannel } from "discord.js";
 import { nicknameCheck } from "../nicknameCheck";
 import { colour } from "../../config/config.json";
 import emotions from "./data";
 
-export const uwuify = async function (text: string, interaction: CommandInteraction) {
+export const uwuify = async function (text: string, interaction: ChatInputCommandInteraction) {
   if (text.slice(-1) == " ") text = text.substring(0, text.length - 1);
 
   emotions.forEach((emoteClass) => {
@@ -35,7 +35,8 @@ export const uwuify = async function (text: string, interaction: CommandInteract
     let webhook = webhooks.find((w) => w.token != null);
 
     if (!webhook) {
-      webhook = await channel.createWebhook("Nira-chan", {
+      webhook = await channel.createWebhook({
+        name: interaction.client.user.username,
         avatar: interaction.client.user!.avatarURL(),
       });
     }
@@ -48,7 +49,7 @@ export const uwuify = async function (text: string, interaction: CommandInteract
   } else {
     const channel = (await interaction.user.createDM()) as DMChannel;
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(colour)
       .setAuthor({ name: nickname, iconURL: avatar })
       .setDescription(text);
